@@ -13,7 +13,7 @@ import Exceptions.*;
  * Created by thibault on 15/10/16.
  */
 
-//TODO: Commencer à tester la fonction de creation de graphe avec g1.graphe
+//TODO: envThomas
 
 public class Graphe {
     private int size;
