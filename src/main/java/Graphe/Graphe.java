@@ -13,7 +13,7 @@ import Exceptions.*;
  * Created by thibault on 15/10/16.
  */
 
-//TODO: Commencer à tester la fonction de creation de graphe avec g1.graphe
+//TODO: Implementer les fonctions classique de structure de graphe et discuter sur les différentes structures de données
 
 public class Graphe {
     private int size;
