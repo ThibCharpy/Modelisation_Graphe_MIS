@@ -2,6 +2,8 @@ package Graphe;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -169,14 +171,24 @@ public class Graphe {
     }
 
     public String toString(){
-        PriorityQueue tmp = (PriorityQueue) this.vertexesQueue;
         StringBuilder builder = new StringBuilder();
         builder.append("Graphe size :"+this.vertexesQueue.size()+"\n");
-        int cpt=0;
         for (Vertex v: vertexesQueue) {
             builder.append(v.toString()+"\n");
-            cpt++;
         }
         return builder.toString();
+    }
+
+    public void toDot() throws IOException {
+        //to launch a .dot graph use this command line:
+        //dot -Tx11 graphe.dot
+        List<String> lines = new ArrayList<String>();
+        lines.add("strict graph {");
+        for (Vertex v: vertexesQueue){
+            lines.add("\t"+v.toDot());
+        }
+        lines.add("}");
+        Path file = Paths.get("graphe.dot");
+        Files.write(file,lines, Charset.forName("UTF-8"));
     }
 }
