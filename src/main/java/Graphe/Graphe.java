@@ -28,19 +28,19 @@ public class Graphe {
         vertexesSet = new HashSet<Vertex>();
     }
 
-    public Graphe(String path) throws FilePathExcpetion, FileNotFoundException {
+    public Graphe(String path) throws FilePathException, FileNotFoundException {
         int cpt = 0;
         if ('.' == path.charAt(0))
-            throw new FilePathExcpetion("Empty File name Error.");
+            throw new FilePathException("Empty File name Error.");
         while(cpt < path.length() && '.' != path.charAt(cpt)){
             if (' ' != path.charAt(cpt) || '/' != path.charAt(cpt)  || '\\' != path.charAt(cpt)
                     || '!' != path.charAt(cpt) || '?' != path.charAt(cpt))
                 cpt++;
             else
-                throw new FilePathExcpetion("File path syntax Error.");
+                throw new FilePathException("File path syntax Error.");
         }
         if('.' != path.charAt(cpt))
-            throw new FilePathExcpetion("File path extension Error.");
+            throw new FilePathException("File path extension Error.");
         else
             cpt++;
 
@@ -51,7 +51,7 @@ public class Graphe {
         }
 
         if (!builder.toString().equals("graphe"))
-            throw new FilePathExcpetion("File path extension Error.");
+            throw new FilePathException("File path extension Error.");
 
         Path source = Paths.get(path);
 
@@ -105,11 +105,8 @@ public class Graphe {
                                         j++;
                                 } else {
                                     if (' ' != line.charAt(i)){
-                                        if (']' == line.charAt(i+1))
-                                            throw new FileSyntaxException("Vertex:"+vertex.getLabel()+" -> No vertex neighbor Error.");
-                                        else
-                                            if (1 != j)
-                                                j++;
+                                        if (1 != j)
+                                            j++;
                                     }
                                     builder = new StringBuilder();
                                     while( ',' != line.charAt(i+j) && ']' != line.charAt(i+j)){
@@ -191,4 +188,5 @@ public class Graphe {
         Path file = Paths.get("graphe.dot");
         Files.write(file,lines, Charset.forName("UTF-8"));
     }
+
 }
