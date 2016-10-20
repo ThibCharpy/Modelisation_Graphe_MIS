@@ -15,8 +15,8 @@ public class Main {
             Graphe g = new Graphe("src/main/ressources/g1.graphe");
             System.out.println(g.toString());
             g.toDot();
-        } catch (FilePathExcpetion filePathExcpetion) {
-            filePathExcpetion.printStackTrace();
+        } catch (FilePathException e) {
+            e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
