@@ -48,6 +48,20 @@ public class Vertex implements Comparable<Vertex>{
         return builder.toString();
     }
 
+    public String toDot() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(label+" -- {");
+        int cpt=0;
+        for (Vertex v : edges) {
+            builder.append(v.label+";");
+            if (cpt < edges.size()-1)
+                builder.append(" ");
+            cpt++;
+        }
+        builder.append("}");
+        return builder.toString();
+    }
+
     @Override
     public int compareTo(Vertex o) {
         if (this.edges.size() < o.edges.size()){
