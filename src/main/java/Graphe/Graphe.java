@@ -191,4 +191,7 @@ public class Graphe {
         Path file = Paths.get("graphe.dot");
         Files.write(file,lines, Charset.forName("UTF-8"));
     }
+
+    public int nbCC(){return 0;}
+
 }
