@@ -192,6 +192,30 @@ public class Graphe {
         Files.write(file,lines, Charset.forName("UTF-8"));
     }
 
-    public int nbCC(){return 0;}
+    public int nbCC() {
+        int nbCC = 0;
+        Vertex tete;
+        LinkedList<Vertex> fifo = new LinkedList<Vertex>();
+        for (Vertex v: vertexesQueue){
+            v.setReached(false);
+        }
+        for (Vertex v: vertexesQueue){
+            if (!v.isReached()){
+                fifo.add(v);
+                nbCC++;
+                v.setReached(true);
+                while (!fifo.isEmpty()){
+                    tete = fifo.removeFirst();
+                    for (Vertex neighbour: tete.getEdges()){
+                        if (!neighbour.isReached()){
+                            neighbour.setReached(true);
+                            fifo.add(neighbour);
+                        }
+                    }
+                }
+            }
+        }
+        return nbCC;
+    }
 
 }
