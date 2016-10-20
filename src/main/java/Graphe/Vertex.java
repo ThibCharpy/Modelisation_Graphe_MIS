@@ -7,6 +7,7 @@ import java.util.*;
  */
 public class Vertex implements Comparable<Vertex>{
     private String label;
+    private boolean reached;
     private Set<Vertex> edges;
 
     public Vertex(String label) {
@@ -26,6 +27,8 @@ public class Vertex implements Comparable<Vertex>{
     public String getLabel() {
         return label;
     }
+
+    public Set<Vertex> getEdges() { return edges;}
 
     public void setLabel(String label) {
         this.label = label;
@@ -85,5 +88,13 @@ public class Vertex implements Comparable<Vertex>{
                 return 0;
             }
         }
+    }
+
+    public boolean isReached() {
+        return reached;
+    }
+
+    public void setReached(boolean reached) {
+        this.reached = reached;
     }
 }

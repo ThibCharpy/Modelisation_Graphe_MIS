@@ -28,19 +28,19 @@ public class Graphe {
         vertexesSet = new HashSet<Vertex>();
     }
 
-    public Graphe(String path) throws FilePathExcpetion, FileNotFoundException {
+    public Graphe(String path) throws FilePathException, FileNotFoundException {
         int cpt = 0;
         if ('.' == path.charAt(0))
-            throw new FilePathExcpetion("Empty File name Error.");
+            throw new FilePathException("Empty File name Error.");
         while(cpt < path.length() && '.' != path.charAt(cpt)){
             if (' ' != path.charAt(cpt) || '/' != path.charAt(cpt)  || '\\' != path.charAt(cpt)
                     || '!' != path.charAt(cpt) || '?' != path.charAt(cpt))
                 cpt++;
             else
-                throw new FilePathExcpetion("File path syntax Error.");
+                throw new FilePathException("File path syntax Error.");
         }
         if('.' != path.charAt(cpt))
-            throw new FilePathExcpetion("File path extension Error.");
+            throw new FilePathException("File path extension Error.");
         else
             cpt++;
 
@@ -51,7 +51,7 @@ public class Graphe {
         }
 
         if (!builder.toString().equals("graphe"))
-            throw new FilePathExcpetion("File path extension Error.");
+            throw new FilePathException("File path extension Error.");
 
         Path source = Paths.get(path);
 
@@ -192,6 +192,30 @@ public class Graphe {
         Files.write(file,lines, Charset.forName("UTF-8"));
     }
 
-    public int nbCC(){return 0;}
+    public int nbCC() {
+        int nbCC = 0;
+        Vertex tete;
+        LinkedList<Vertex> fifo = new LinkedList<Vertex>();
+        for (Vertex v: vertexesQueue){
+            v.setReached(false);
+        }
+        for (Vertex v: vertexesQueue){
+            if (!v.isReached()){
+                fifo.add(v);
+                nbCC++;
+                v.setReached(true);
+                while (!fifo.isEmpty()){
+                    tete = fifo.removeFirst();
+                    for (Vertex neighbour: tete.getEdges()){
+                        if (!neighbour.isReached()){
+                            neighbour.setReached(true);
+                            fifo.add(neighbour);
+                        }
+                    }
+                }
+            }
+        }
+        return nbCC;
+    }
 
 }
