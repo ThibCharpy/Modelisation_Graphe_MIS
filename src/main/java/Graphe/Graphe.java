@@ -179,7 +179,7 @@ public class Graphe {
         return builder.toString();
     }
 
-    public void toDot() throws IOException {
+    public void toDot(String fileName) throws IOException {
         //to launch a .dot graph use this command line:
         //dot -Tx11 graphe.dot
         List<String> lines = new ArrayList<String>();
@@ -188,7 +188,7 @@ public class Graphe {
             lines.add("\t"+v.toDot());
         }
         lines.add("}");
-        Path file = Paths.get("graphe.dot");
+        Path file = Paths.get("target/"+fileName+".dot");
         Files.write(file,lines, Charset.forName("UTF-8"));
     }
 
@@ -218,4 +218,36 @@ public class Graphe {
         return nbCC;
     }
 
+    public Vertex findDominance() {
+        for (Vertex v : this.vertexesQueue) {
+            for (Vertex w : v.getEdges()) {
+                if (v.isDominant(w))
+                    return v;
+            }
+        }
+        return null;
+    }
+
+    public boolean removeVertex(Vertex v){
+        if (null != v) {
+            if (!v.getEdges().isEmpty()) {
+                for (Vertex vNeighbor : v.getEdges()) {
+                    vNeighbor.removeNeighbor(v);
+                }
+                this.size--;
+                this.vertexesQueue.remove(v);
+                this.vertexesSet.remove(v);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addVertex(Vertex v) {
+        if (!this.vertexesSet.contains(v)){
+            size++;
+            vertexesQueue.add(v);
+            vertexesSet.add(v);
+        }
+    }
 }

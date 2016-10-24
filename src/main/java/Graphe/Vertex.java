@@ -24,6 +24,15 @@ public class Vertex implements Comparable<Vertex>{
             edges.add(vertex);
     }
 
+    /**
+     * remove vertex in the appelant neighbor list
+     * @param vertex
+     * @return
+     */
+    public boolean removeNeighbor(Vertex vertex){
+        return this.edges.remove(vertex);
+    }
+
     public String getLabel() {
         return label;
     }
@@ -96,5 +105,14 @@ public class Vertex implements Comparable<Vertex>{
 
     public void setReached(boolean reached) {
         this.reached = reached;
+    }
+
+    public boolean isDominant(Vertex w){
+        for (Vertex wNeighbor : w.N()) {
+            if (!this.N().contains(wNeighbor)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

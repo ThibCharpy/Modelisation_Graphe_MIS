@@ -15,7 +15,7 @@ public class Main {
         try {
             Graphe g = new Graphe("src/main/ressources/g1.graphe");
             System.out.println(g.toString());
-            g.toDot();
+            g.toDot("graphe");
         } catch (FilePathException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
