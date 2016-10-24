@@ -13,11 +13,7 @@ public class Main {
             Graphe g = new Graphe("src/main/ressources/g1.graphe");
             System.out.println(g.toString());
             g.toDot();
-        } catch (FilePathException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FilePathException | IOException e) {
             e.printStackTrace();
         }
     }

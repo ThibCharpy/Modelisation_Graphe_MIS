@@ -28,11 +28,6 @@ public class Vertex implements Comparable<Vertex>{
             edges.add(vertex);
     }
 
-    /**
-     * remove vertex in the appelant neighbor list
-     * @param vertex
-     * @return
-     */
     public boolean removeNeighbor(Vertex vertex){
         return this.edges.remove(vertex);
     }
@@ -40,8 +35,6 @@ public class Vertex implements Comparable<Vertex>{
     public String getLabel() {
         return label;
     }
-
-    public Set<Vertex> getEdges() { return edges;}
 
     public void setLabel(String label) {
         this.label = label;
@@ -64,7 +57,7 @@ public class Vertex implements Comparable<Vertex>{
 
     public String toString(){
         StringBuilder builder = new StringBuilder();
-        builder.append(label+": [");
+        builder.append(label).append(": [");
         Iterator<Vertex> i = edges.iterator();
         while(i.hasNext()){
             builder.append(i.next().label);
@@ -78,10 +71,10 @@ public class Vertex implements Comparable<Vertex>{
 
     public String toDot() {
         StringBuilder builder = new StringBuilder();
-        builder.append(label+" -- {");
+        builder.append(label).append(" -- {");
         int cpt=0;
         for (Vertex v : edges) {
-            builder.append(v.label+";");
+            builder.append(v.label).append(";");
             if (cpt < edges.size()-1)
                 builder.append(" ");
             cpt++;

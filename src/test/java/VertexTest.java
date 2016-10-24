@@ -1,4 +1,4 @@
-import Graphe.Vertex;
+import Graphe.*;
 import junit.framework.TestCase;
 
 /**

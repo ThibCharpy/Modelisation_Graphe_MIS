@@ -2,6 +2,8 @@ package Graphe;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,7 +15,7 @@ import Exceptions.*;
  * Created by thibault on 15/10/16.
  */
 
-//TODO: EnvThibault
+//TODO: Creer l'algorithme de MIS avec ce qui à été implémenté
 
 public class Graphe {
     private int size;
@@ -163,14 +165,6 @@ public class Graphe {
         }
     }
 
-    public void removeVertex(Vertex v){
-        if (this.vertexesSet.contains(v)){
-            size--;
-            vertexesSet.remove(v);
-            vertexesQueue.remove(v);
-        }
-    }
-
     public Vertex getVertex(String label){
         for (Vertex v: vertexesSet) {
             if (label.equals(v.getLabel())){
@@ -190,9 +184,9 @@ public class Graphe {
 
     public String toString(){
         StringBuilder builder = new StringBuilder();
-        builder.append("Graphe size :"+this.vertexesQueue.size()+"\n");
+        builder.append("Graphe size :").append(this.vertexesQueue.size()).append("\n");
         for (Vertex v: vertexesQueue) {
-            builder.append(v.toString()+"\n");
+            builder.append(v.toString()).append("\n");
         }
         return builder.toString();
     }
@@ -200,13 +194,24 @@ public class Graphe {
     public void toDot() throws IOException {
         //to launch a .dot graph use this command line:
         //dot -Tx11 graphe.dot
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("strict graph {");
         for (Vertex v: vertexesQueue){
             lines.add("\t"+v.toDot());
         }
         lines.add("}");
         Path file = Paths.get("graphe.dot");
+        Files.write(file,lines, Charset.forName("UTF-8"));
+    }
+
+    public void toDot(String fileName) throws IOException {
+        List<String> lines = new ArrayList<>();
+        lines.add("strict graph {");
+        for (Vertex v: vertexesQueue){
+            lines.add("\t"+v.toDot());
+        }
+        lines.add("}");
+        Path file = Paths.get(fileName+".dot");
         Files.write(file,lines, Charset.forName("UTF-8"));
     }
 
@@ -261,13 +266,6 @@ public class Graphe {
         return false;
     }
 
-    public void addVertex(Vertex v) {
-        if (!this.vertexesSet.contains(v)){
-            size++;
-            vertexesQueue.add(v);
-            vertexesSet.add(v);
-        }
-    }
     public boolean isClique() {
         for (Vertex v1: vertexesQueue){
             for (Vertex v2: vertexesQueue){
@@ -280,5 +278,4 @@ public class Graphe {
         }
         return true;
     }
-
 }

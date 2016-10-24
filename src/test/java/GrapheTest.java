@@ -1,5 +1,4 @@
-import Exceptions.FilePathException;
-import Graphe.Graphe;
+import Exceptions.*;
 import Briques.*;
 import Graphe.*;
 import junit.framework.TestCase;
@@ -15,6 +14,10 @@ public class GrapheTest extends TestCase {
     public void testGraphe() throws FileNotFoundException, FilePathException {
         Graphe g = new Graphe("src/main/ressources/g1.graphe");
         assertNotNull(g);
+
+        //System.out.println(Pliage.pliable(g.getVertex("0")));
+        Pliage.pliage(g, g.getVertex("0"));
+        System.out.println(g.toString());
     }
 
     public void testnbCC() throws FileNotFoundException, FilePathException {
@@ -33,12 +36,6 @@ public class GrapheTest extends TestCase {
             System.out.println("oui3");
         else
             System.out.println("non3");
-    public void testGraphe() throws Exception{
-        Graphe g = new Graphe("src/main/ressources/g2.graphe");
-
-        //System.out.println(Pliage.pliable(g.getVertex("0")));
-        Pliage.pliage(g, g.getVertex("0"));
-        System.out.println(g.toString());
     }
 
     public void testFindDominance() throws IOException, FilePathException {
@@ -49,7 +46,7 @@ public class GrapheTest extends TestCase {
         Vertex toRemove = g.findDominance();
         Vertex toRemove2 = g2.findDominance();
         assertTrue(null == toRemove2);
-        assertTrue(!g2.removeVertex(toRemove2));
+        assertTrue(!g2.removeVertex(null));
         assertTrue(g.removeVertex(toRemove));
         assertTrue(ancSize-1 == g.size());
         g.toDot("graphe2");
