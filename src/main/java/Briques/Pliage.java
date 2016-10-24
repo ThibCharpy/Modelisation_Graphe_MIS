@@ -34,7 +34,7 @@ public class Pliage {
 
             // Si ses deux voisins ne sont eux memes pas voisins
             if(!u1.getEdges().contains(u2)){
-                Vertex u12 = new Vertex(u1.getLabel()+u2.getLabel());
+                Vertex u12 = new Vertex(u1.getLabel()+","+u2.getLabel());
                 u1.getEdges().stream().filter(temp -> !u12.getEdges().contains(temp)).forEach(temp -> {
                     u12.addNeighbor(temp);
                 });
@@ -48,12 +48,14 @@ public class Pliage {
                 });
 
                 // On supprime v du graphe
-                g2.getVertexesQueue().remove(v);
-                g2.getVertexesQueue().add(u12);
+                g.getVertexesQueue().remove(v);
+                g.getVertexesQueue().remove(u1);
+                g.getVertexesQueue().remove(u2);
+                g.getVertexesQueue().add(u12);
 
-                return g2;
+                return g;
             }
         }
-        return g2;
+        return g;
     }
 }

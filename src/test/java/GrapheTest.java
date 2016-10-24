@@ -1,4 +1,5 @@
 import Graphe.Graphe;
+import Briques.*;
 import junit.framework.TestCase;
 
 /**
@@ -7,6 +8,10 @@ import junit.framework.TestCase;
 public class GrapheTest extends TestCase {
 
     public void testGraphe() throws Exception{
-        Graphe g = new Graphe("src/main/ressources/g1.graphe");
+        Graphe g = new Graphe("src/main/ressources/g2.graphe");
+
+        //System.out.println(Pliage.pliable(g.getVertex("0")));
+        Pliage.pliage(g, g.getVertex("0"));
+        System.out.println(g.toString());
     }
 }
