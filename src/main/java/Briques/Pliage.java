@@ -34,13 +34,24 @@ public class Pliage {
 
             // Si ses deux voisins ne sont eux memes pas voisins
             if(!u1.getEdges().contains(u2)){
-                Vertex u12 = new Vertex(u1.getLabel()+","+u2.getLabel());
+                Vertex u12 = new Vertex(u1.getLabel()+"."+u2.getLabel()); // le . est censé représenter la fusion de deux sommets
                 u1.getEdges().stream().filter(temp -> !u12.getEdges().contains(temp)).forEach(temp -> {
                     u12.addNeighbor(temp);
                 });
                 u2.getEdges().stream().filter(temp -> !u12.getEdges().contains(temp)).forEach(temp -> {
                     u12.addNeighbor(temp);
                 });
+                for(Vertex temp: u12.getEdges()){
+                    if(!temp.getEdges().contains(u12)){
+                        temp.addNeighbor(u12);
+                    }
+                    if(temp.getEdges().contains(u1)){
+                        temp.getEdges().remove(u1);
+                    }
+                    if(temp.getEdges().contains(u2)){
+                        temp.getEdges().remove(u2);
+                    }
+                }
 
                 // Pour chaque sommet du graphe, si v était son voisin on retire v de cette liste
                 g.getVertexesQueue().stream().filter(temp -> temp.getEdges().contains(v)).forEach(temp -> {
