@@ -13,7 +13,7 @@ import Exceptions.*;
  * Created by thibault on 15/10/16.
  */
 
-//TODO: envThomas
+//TODO: EnvThibault
 
 public class Graphe {
     private int size;
@@ -26,19 +26,19 @@ public class Graphe {
         vertexesSet = new HashSet<Vertex>();
     }
 
-    public Graphe(String path) throws FilePathExcpetion, FileNotFoundException {
+    public Graphe(String path) throws FilePathException, FileNotFoundException {
         int cpt = 0;
         if ('.' == path.charAt(0))
-            throw new FilePathExcpetion("Empty File name Error.");
+            throw new FilePathException("Empty File name Error.");
         while(cpt < path.length() && '.' != path.charAt(cpt)){
             if (' ' != path.charAt(cpt) || '/' != path.charAt(cpt)  || '\\' != path.charAt(cpt)
                     || '!' != path.charAt(cpt) || '?' != path.charAt(cpt))
                 cpt++;
             else
-                throw new FilePathExcpetion("File path syntax Error.");
+                throw new FilePathException("File path syntax Error.");
         }
         if('.' != path.charAt(cpt))
-            throw new FilePathExcpetion("File path extension Error.");
+            throw new FilePathException("File path extension Error.");
         else
             cpt++;
 
@@ -49,7 +49,7 @@ public class Graphe {
         }
 
         if (!builder.toString().equals("graphe"))
-            throw new FilePathExcpetion("File path extension Error.");
+            throw new FilePathException("File path extension Error.");
 
         Path source = Paths.get(path);
 
@@ -169,14 +169,83 @@ public class Graphe {
     }
 
     public String toString(){
-        PriorityQueue tmp = (PriorityQueue) this.vertexesQueue;
         StringBuilder builder = new StringBuilder();
         builder.append("Graphe size :"+this.vertexesQueue.size()+"\n");
-        int cpt=0;
         for (Vertex v: vertexesQueue) {
             builder.append(v.toString()+"\n");
-            cpt++;
         }
         return builder.toString();
+    }
+
+    public void toDot(String fileName) throws IOException {
+        //to launch a .dot graph use this command line:
+        //dot -Tx11 graphe.dot
+        List<String> lines = new ArrayList<String>();
+        lines.add("strict graph {");
+        for (Vertex v: vertexesQueue){
+            lines.add("\t"+v.toDot());
+        }
+        lines.add("}");
+        Path file = Paths.get("target/"+fileName+".dot");
+        Files.write(file,lines, Charset.forName("UTF-8"));
+    }
+
+    public int nbCC() {
+        int nbCC = 0;
+        Vertex tete;
+        LinkedList<Vertex> fifo = new LinkedList<Vertex>();
+        for (Vertex v: vertexesQueue){
+            v.setReached(false);
+        }
+        for (Vertex v: vertexesQueue){
+            if (!v.isReached()){
+                fifo.add(v);
+                nbCC++;
+                v.setReached(true);
+                while (!fifo.isEmpty()){
+                    tete = fifo.removeFirst();
+                    for (Vertex neighbour: tete.getEdges()){
+                        if (!neighbour.isReached()){
+                            neighbour.setReached(true);
+                            fifo.add(neighbour);
+                        }
+                    }
+                }
+            }
+        }
+        return nbCC;
+    }
+
+    public Vertex findDominance() {
+        for (Vertex v : this.vertexesQueue) {
+            for (Vertex w : v.getEdges()) {
+                if (v.isDominant(w))
+                    return v;
+            }
+        }
+        return null;
+    }
+
+    public boolean removeVertex(Vertex v){
+        if (null != v) {
+            if (!v.getEdges().isEmpty()) {
+                for (Vertex vNeighbor : v.getEdges()) {
+                    vNeighbor.removeNeighbor(v);
+                }
+                this.size--;
+                this.vertexesQueue.remove(v);
+                this.vertexesSet.remove(v);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addVertex(Vertex v) {
+        if (!this.vertexesSet.contains(v)){
+            size++;
+            vertexesQueue.add(v);
+            vertexesSet.add(v);
+        }
     }
 }
