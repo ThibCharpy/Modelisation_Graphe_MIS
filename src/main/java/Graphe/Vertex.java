@@ -15,6 +15,10 @@ public class Vertex implements Comparable<Vertex>{
         edges = new HashSet<Vertex>();
     }
 
+    public Set<Vertex> getEdges(){
+        return this.edges;
+    }
+
     public int size(){
         return edges.size();
     }

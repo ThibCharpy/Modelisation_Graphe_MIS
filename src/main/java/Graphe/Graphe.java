@@ -2,8 +2,6 @@ package Graphe;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,7 +13,7 @@ import Exceptions.*;
  * Created by thibault on 15/10/16.
  */
 
-//TODO: EnvThibault
+//TODO: envThomas
 
 public class Graphe {
     private int size;
@@ -28,19 +26,19 @@ public class Graphe {
         vertexesSet = new HashSet<Vertex>();
     }
 
-    public Graphe(String path) throws FilePathException, FileNotFoundException {
+    public Graphe(String path) throws FilePathExcpetion, FileNotFoundException {
         int cpt = 0;
         if ('.' == path.charAt(0))
-            throw new FilePathException("Empty File name Error.");
+            throw new FilePathExcpetion("Empty File name Error.");
         while(cpt < path.length() && '.' != path.charAt(cpt)){
             if (' ' != path.charAt(cpt) || '/' != path.charAt(cpt)  || '\\' != path.charAt(cpt)
                     || '!' != path.charAt(cpt) || '?' != path.charAt(cpt))
                 cpt++;
             else
-                throw new FilePathException("File path syntax Error.");
+                throw new FilePathExcpetion("File path syntax Error.");
         }
         if('.' != path.charAt(cpt))
-            throw new FilePathException("File path extension Error.");
+            throw new FilePathExcpetion("File path extension Error.");
         else
             cpt++;
 
@@ -51,7 +49,7 @@ public class Graphe {
         }
 
         if (!builder.toString().equals("graphe"))
-            throw new FilePathException("File path extension Error.");
+            throw new FilePathExcpetion("File path extension Error.");
 
         Path source = Paths.get(path);
 
@@ -171,51 +169,14 @@ public class Graphe {
     }
 
     public String toString(){
+        PriorityQueue tmp = (PriorityQueue) this.vertexesQueue;
         StringBuilder builder = new StringBuilder();
         builder.append("Graphe size :"+this.vertexesQueue.size()+"\n");
+        int cpt=0;
         for (Vertex v: vertexesQueue) {
             builder.append(v.toString()+"\n");
+            cpt++;
         }
         return builder.toString();
     }
-
-    public void toDot() throws IOException {
-        //to launch a .dot graph use this command line:
-        //dot -Tx11 graphe.dot
-        List<String> lines = new ArrayList<String>();
-        lines.add("strict graph {");
-        for (Vertex v: vertexesQueue){
-            lines.add("\t"+v.toDot());
-        }
-        lines.add("}");
-        Path file = Paths.get("graphe.dot");
-        Files.write(file,lines, Charset.forName("UTF-8"));
-    }
-
-    public int nbCC() {
-        int nbCC = 0;
-        Vertex tete;
-        LinkedList<Vertex> fifo = new LinkedList<Vertex>();
-        for (Vertex v: vertexesQueue){
-            v.setReached(false);
-        }
-        for (Vertex v: vertexesQueue){
-            if (!v.isReached()){
-                fifo.add(v);
-                nbCC++;
-                v.setReached(true);
-                while (!fifo.isEmpty()){
-                    tete = fifo.removeFirst();
-                    for (Vertex neighbour: tete.getEdges()){
-                        if (!neighbour.isReached()){
-                            neighbour.setReached(true);
-                            fifo.add(neighbour);
-                        }
-                    }
-                }
-            }
-        }
-        return nbCC;
-    }
-
 }
