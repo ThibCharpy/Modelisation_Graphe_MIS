@@ -200,7 +200,7 @@ public class Graphe {
             lines.add("\t"+v.toDot());
         }
         lines.add("}");
-        Path file = Paths.get("graphe.dot");
+        Path file = Paths.get("target/graphe.dot");
         Files.write(file,lines, Charset.forName("UTF-8"));
     }
 
@@ -211,7 +211,7 @@ public class Graphe {
             lines.add("\t"+v.toDot());
         }
         lines.add("}");
-        Path file = Paths.get(fileName+".dot");
+        Path file = Paths.get("target/"+fileName+".dot");
         Files.write(file,lines, Charset.forName("UTF-8"));
     }
 
