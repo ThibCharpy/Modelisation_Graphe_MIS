@@ -164,6 +164,10 @@ public class Graphe {
         return null;
     }
 
+    public Queue<Vertex> getVertexesQueue(){
+        return this.vertexesQueue;
+    }
+
     public int size(){
         return vertexesQueue.size();
     }
