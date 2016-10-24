@@ -94,6 +94,16 @@ public class Vertex implements Comparable<Vertex>{
         return reached;
     }
 
+    public boolean isMirror(Vertex v) {
+        if (this.N2().contains(v)){
+            Graphe g = new Graphe();
+            v.N().forEach(g::addVertex);
+            this.N().forEach(g::removeVertex);
+            return g.isClique();
+        }
+        return false;
+    }
+
     public void setReached(boolean reached) {
         this.reached = reached;
     }

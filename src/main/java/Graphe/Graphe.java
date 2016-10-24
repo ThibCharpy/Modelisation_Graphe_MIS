@@ -157,6 +157,22 @@ public class Graphe {
 
     }
 
+    public void addVertex(Vertex v){
+        if (!this.vertexesSet.contains(v)){
+            size++;
+            vertexesSet.add(v);
+            vertexesQueue.add(v);
+        }
+    }
+
+    public void removeVertex(Vertex v){
+        if (this.vertexesSet.contains(v)){
+            size--;
+            vertexesSet.remove(v);
+            vertexesQueue.remove(v);
+        }
+    }
+
     public Vertex getVertex(String label){
         for (Vertex v: vertexesSet) {
             if (label.equals(v.getLabel())){
@@ -216,6 +232,19 @@ public class Graphe {
             }
         }
         return nbCC;
+    }
+
+    public boolean isClique() {
+        for (Vertex v1: vertexesQueue){
+            for (Vertex v2: vertexesQueue){
+                if (v1 != v2){
+                    if (!v1.N().contains(v2)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 }
