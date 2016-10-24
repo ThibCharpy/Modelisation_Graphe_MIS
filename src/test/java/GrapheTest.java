@@ -1,4 +1,6 @@
 import Exceptions.FilePathException;
+import Graphe.Graphe;
+import Briques.*;
 import Graphe.*;
 import junit.framework.TestCase;
 
@@ -31,6 +33,12 @@ public class GrapheTest extends TestCase {
             System.out.println("oui3");
         else
             System.out.println("non3");
+    public void testGraphe() throws Exception{
+        Graphe g = new Graphe("src/main/ressources/g2.graphe");
+
+        //System.out.println(Pliage.pliable(g.getVertex("0")));
+        Pliage.pliage(g, g.getVertex("0"));
+        System.out.println(g.toString());
     }
 
     public void testFindDominance() throws IOException, FilePathException {
