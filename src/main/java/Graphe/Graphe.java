@@ -155,6 +155,22 @@ public class Graphe {
 
     }
 
+    public void addVertex(Vertex v){
+        if (!this.vertexesSet.contains(v)){
+            size++;
+            vertexesSet.add(v);
+            vertexesQueue.add(v);
+        }
+    }
+
+    public void removeVertex(Vertex v){
+        if (this.vertexesSet.contains(v)){
+            size--;
+            vertexesSet.remove(v);
+            vertexesQueue.remove(v);
+        }
+    }
+
     public Vertex getVertex(String label){
         for (Vertex v: vertexesSet) {
             if (label.equals(v.getLabel())){
@@ -177,7 +193,7 @@ public class Graphe {
         return builder.toString();
     }
 
-    public void toDot(String fileName) throws IOException {
+    public void toDot() throws IOException {
         //to launch a .dot graph use this command line:
         //dot -Tx11 graphe.dot
         List<String> lines = new ArrayList<String>();
@@ -186,7 +202,7 @@ public class Graphe {
             lines.add("\t"+v.toDot());
         }
         lines.add("}");
-        Path file = Paths.get("target/"+fileName+".dot");
+        Path file = Paths.get("graphe.dot");
         Files.write(file,lines, Charset.forName("UTF-8"));
     }
 
@@ -248,4 +264,17 @@ public class Graphe {
             vertexesSet.add(v);
         }
     }
+    public boolean isClique() {
+        for (Vertex v1: vertexesQueue){
+            for (Vertex v2: vertexesQueue){
+                if (v1 != v2){
+                    if (!v1.N().contains(v2)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
 }

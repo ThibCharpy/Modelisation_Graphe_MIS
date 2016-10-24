@@ -46,4 +46,42 @@ public class GrapheTest extends TestCase {
         assertTrue(ancSize-1 == g.size());
         g.toDot("graphe2");
     }
+    public void testMirror() throws FileNotFoundException, FilePathException {
+        Graphe g = new Graphe("src/main/ressources/g2.graphe");
+        if (g.getVertex("0").isMirror(g.getVertex("1"))) {
+            System.out.println("oui");
+        }else{
+            System.out.println("non");
+        }
+        if (g.getVertex("1").isMirror(g.getVertex("2"))) {
+            System.out.println("oui");
+        }else{
+            System.out.println("non");
+        }
+        if (g.getVertex("2").isMirror(g.getVertex("3"))) {
+            System.out.println("oui");
+        }else{
+            System.out.println("non");
+        }
+        if (g.getVertex("3").isMirror(g.getVertex("4"))) {
+            System.out.println("oui");
+        }else{
+            System.out.println("non");
+        }
+        if (g.getVertex("4").isMirror(g.getVertex("5"))) {
+            System.out.println("oui");
+        }else{
+            System.out.println("non");
+        }
+        if (g.getVertex("5").isMirror(g.getVertex("6"))) {
+            System.out.println("oui");
+        }else{
+            System.out.println("non");
+        }
+        if (g.getVertex("6").isMirror(g.getVertex("7"))) {
+            System.out.println("oui");
+        }else{
+            System.out.println("non");
+        }
+    }
 }
