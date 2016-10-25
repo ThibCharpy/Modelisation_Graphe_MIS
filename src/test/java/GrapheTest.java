@@ -15,7 +15,6 @@ public class GrapheTest extends TestCase {
         Graphe g = new Graphe("src/main/ressources/g1.graphe");
         assertNotNull(g);
 
-        //System.out.println(Pliage.pliable(g.getVertex("0")));
         Pliage.pliage(g, g.getVertex("0"));
         System.out.println(g.toString());
     }
