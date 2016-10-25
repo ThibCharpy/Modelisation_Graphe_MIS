@@ -1,5 +1,4 @@
 import Exceptions.*;
-import Briques.*;
 import Graphe.*;
 import junit.framework.TestCase;
 
