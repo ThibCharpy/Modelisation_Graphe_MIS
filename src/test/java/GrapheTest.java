@@ -16,7 +16,7 @@ public class GrapheTest extends TestCase {
         assertNotNull(g);
 
         //System.out.println(Pliage.pliable(g.getVertex("0")));
-        Pliage.pliage(g, g.getVertex("0"));
+        //Pliage.pliage(g, g.getVertex("0"));
         System.out.println(g.toString());
     }
 
@@ -42,13 +42,13 @@ public class GrapheTest extends TestCase {
         Graphe g = new Graphe("src/main/ressources/g4.graphe");
         Graphe g2 = new Graphe();
         g.toDot("graphe1");
-        int ancSize = g.size();
+        int ancSize = g.getSize();
         Vertex toRemove = g.findDominance();
         Vertex toRemove2 = g2.findDominance();
         assertTrue(null == toRemove2);
         assertTrue(!g2.removeVertex(null));
         assertTrue(g.removeVertex(toRemove));
-        assertTrue(ancSize-1 == g.size());
+        assertTrue(ancSize-1 == g.getSize());
         g.toDot("graphe2");
     }
     public void testMirror() throws FileNotFoundException, FilePathException {

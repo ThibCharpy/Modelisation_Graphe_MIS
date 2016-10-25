@@ -24,8 +24,10 @@ public class Vertex implements Comparable<Vertex>{
     }
 
     public void addNeighbor(Vertex vertex){
-        if (null != vertex)
+        if (null != vertex){
             edges.add(vertex);
+            vertex.edges.add(this);
+        }
     }
 
     public boolean removeNeighbor(Vertex vertex){
@@ -121,5 +123,15 @@ public class Vertex implements Comparable<Vertex>{
             }
         }
         return true;
+    }
+
+    public Vertex clone() {
+        Vertex clone = new Vertex(this.label);
+        for (Vertex v : this.getEdges()){
+            if (!this.getEdges().contains(v)){
+                clone.addNeighbor(v.clone());
+            }
+        }
+        return clone;
     }
 }
