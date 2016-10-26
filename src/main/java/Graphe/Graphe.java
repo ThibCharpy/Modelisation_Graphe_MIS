@@ -280,11 +280,11 @@ public class Graphe {
                 for (Vertex vNeighbor : v.getEdges()) {
                     vNeighbor.removeNeighbor(v);
                 }
-                this.size--;
-                this.vertexesQueue.remove(v);
-                this.vertexesSet.remove(v);
-                return true;
             }
+            this.size--;
+            this.vertexesQueue.remove(v);
+            this.vertexesSet.remove(v);
+            return true;
         }
         return false;
     }
@@ -344,9 +344,9 @@ public class Graphe {
         return false;
     }
 
-    public Graphe clone() {
+    public Graphe cloner() {
         Graphe clone = new Graphe();
-        Vertex vClone = null;
+        Vertex vClone;
         for (Vertex v: this.vertexesQueue){
             if (!clone.contains(v.getLabel())){
                 vClone = new Vertex(v.getLabel());
@@ -355,7 +355,7 @@ public class Graphe {
             }
             clone.addVertex(vClone);
             for (Vertex vNeighbor : v.getEdges()){
-                Vertex vNeighborClone = null;
+                Vertex vNeighborClone;
                 if (!clone.contains(vNeighbor.getLabel())){
                     vNeighborClone = new Vertex(vNeighbor.getLabel());
                     clone.addVertex(vNeighborClone);
