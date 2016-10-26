@@ -8,7 +8,6 @@ import java.io.IOException;
  * Created by thibault on 17/10/16.
  */
 public class Main {
-
     public static int algo_MIS(Graphe graphe){
         if (graphe.getSize() <= 1){
             return graphe.getSize();
