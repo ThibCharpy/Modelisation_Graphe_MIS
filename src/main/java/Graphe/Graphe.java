@@ -346,16 +346,32 @@ public class Graphe {
 
     public Graphe clone() {
         Graphe clone = new Graphe();
+        Vertex vClone = null;
         for (Vertex v: this.vertexesQueue){
-            clone.addVertex(v.clone());
+            if (!clone.contains(v.getLabel())){
+                vClone = new Vertex(v.getLabel());
+            }else{
+                vClone = clone.getVertex(v.getLabel());
+            }
+            clone.addVertex(vClone);
+            for (Vertex vNeighbor : v.getEdges()){
+                Vertex vNeighborClone = null;
+                if (!clone.contains(vNeighbor.getLabel())){
+                    vNeighborClone = new Vertex(vNeighbor.getLabel());
+                    clone.addVertex(vNeighborClone);
+                }else{
+                    vNeighborClone = clone.getVertex(vNeighbor.getLabel());
+                }
+                vClone.addNeighbor(vNeighborClone);
+            }
         }
         return clone;
     }
 
-    public static Graphe pliage(Graphe g, Vertex v){
+    public Graphe pliage(Vertex v){
 
         Set<Vertex> vEdges = v.getEdges();
-        Graphe g2 = g;
+        Graphe g2 = this;
 
         // Si le sommet a exactement 2 voisins
         if(2 == v.getEdges().size()){
@@ -385,19 +401,32 @@ public class Graphe {
                 }
 
                 // Pour chaque sommet du graphe, si v était son voisin on retire v de cette liste
-                g.getVertexesQueue().stream().filter(temp -> temp.getEdges().contains(v)).forEach(temp -> {
+                this.getVertexesQueue().stream().filter(temp -> temp.getEdges().contains(v)).forEach(temp -> {
                     temp.getEdges().remove(v);
                 });
 
                 // On supprime v du graphe
-                g.getVertexesQueue().remove(v);
-                g.getVertexesQueue().remove(u1);
-                g.getVertexesQueue().remove(u2);
-                g.getVertexesQueue().add(u12);
+                this.getVertexesQueue().remove(v);
+                this.getVertexesQueue().remove(u1);
+                this.getVertexesQueue().remove(u2);
+                this.getVertexesQueue().add(u12);
 
-                return g;
+                return this;
             }
         }
-        return g;
+        return this;
+    }
+
+    public Set<Vertex> getVertexesSet() {
+        return vertexesSet;
+    }
+
+    public boolean contains(String label){
+        for (Vertex v : this.getVertexesSet()){
+            if (v.getLabel().equals(label)){
+                return true;
+            }
+        }
+        return false;
     }
 }

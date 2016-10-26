@@ -14,7 +14,7 @@ public class Main {
         }else {
             if (1 < graphe.nbCC()) {
                 Graphe c = graphe.getCC();
-                for (Vertex v : graphe.getVertexesQueue()) {
+                for (Vertex v : c.getVertexesQueue()) {
                     graphe.removeVertex(v);
                 }
                 return algo_MIS(c) + algo_MIS(graphe);
@@ -26,21 +26,19 @@ public class Main {
                 }else{
                     Vertex pliable = graphe.trouverPliable();
                     if(null != pliable){
-                        return 1 + algo_MIS(Graphe.pliage(graphe, pliable));
+                        return 1 + algo_MIS(graphe.pliage(pliable));
                     }else {
                         Vertex max = graphe.getMaxDegree();
                         Graphe clone = graphe.clone();
-                        System.out.println("clone: "+clone);
-                        System.out.println("max: "+max);
-                        for (Vertex v : max.getEdges()){
-                            System.out.println("label: "+v.getLabel());
-                            clone.removeVertex(v);
+                        Graphe iterator = clone.clone();
+                        for (Vertex v : iterator.getVertex(max.getLabel()).getEdges()){
+                            clone.removeVertex(clone.getVertex(v.getLabel()));
                         }
-                        for (Vertex v : graphe.getMirrors(max).getVertexesQueue()){
-                            graphe.removeVertex(v);
+                        for (Vertex v : iterator.getMirrors(iterator.getVertex(max.getLabel())).getVertexesQueue()){
+                            graphe.removeVertex(graphe.getVertex(v.getLabel()));
                         }
-                        graphe.removeVertex(max);
-                        return Math.max(algo_MIS(graphe),algo_MIS(clone));
+                        graphe.removeVertex(graphe.getVertex(max.getLabel()));
+                        return Math.max(algo_MIS(graphe),1+algo_MIS(clone));
                     }
                 }
             }

@@ -125,13 +125,4 @@ public class Vertex implements Comparable<Vertex>{
         return true;
     }
 
-    public Vertex clone() {
-        Vertex clone = new Vertex(this.label);
-        for (Vertex v : this.getEdges()){
-            if (!this.getEdges().contains(v)){
-                clone.addNeighbor(v.clone());
-            }
-        }
-        return clone;
-    }
 }
