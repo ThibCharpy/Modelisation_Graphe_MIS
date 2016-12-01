@@ -2,12 +2,14 @@ package Graphe;
 
 import java.util.*;
 
+import static Main.Main.isClique2;
+
 /**
  * Created by thibault on 15/10/16.
  */
 public class Vertex implements Comparable<Vertex>{
     private String label;
-    private boolean reached;
+    //private boolean reached;
     private Set<Vertex> edges;
 
     public Vertex(String label) {
@@ -27,6 +29,15 @@ public class Vertex implements Comparable<Vertex>{
         if (null != vertex){
             edges.add(vertex);
             vertex.edges.add(this);
+        }
+    }
+
+    public void removeNeighborByLabel(Vertex vertex){
+        Iterator<Vertex> it = this.getEdges().iterator();
+        while (it.hasNext()){
+            if (it.next().getLabel().equals(vertex.getLabel())){
+                it.remove();
+            }
         }
     }
 
@@ -98,8 +109,38 @@ public class Vertex implements Comparable<Vertex>{
         }
     }
 
-    public boolean isReached() {
+    /*public boolean isReached() {
         return reached;
+    }*/
+
+    public Vertex clone2(){
+        Vertex vClone = new Vertex(this.getLabel());
+        for (Vertex neighbor : this.getEdges()){
+            Vertex vCloneNeighbor = new Vertex(neighbor.getLabel());
+            vClone.addNeighbor(vCloneNeighbor);
+        }
+        return vClone;
+    }
+
+    public boolean isMirror2(Vertex v){
+        if (v.N2().contains(this)){
+            //obligé car sinon on utilise pas une copie
+            Set<Vertex> c = new HashSet<Vertex>();
+            for (Vertex vNeighbor : v.getEdges()){
+                c.add(vNeighbor.clone2());
+            }
+            Iterator<Vertex> it = null;
+            for (Vertex vU : this.getEdges()){
+                it = c.iterator();
+                while(it.hasNext()){
+                    if (it.next().getLabel().equals(vU.getLabel()))
+                        it.remove();
+                }
+            }
+            if (isClique2(c))
+                return true;
+        }
+        return false;
     }
 
     public boolean isMirror(Vertex v) {
@@ -112,9 +153,9 @@ public class Vertex implements Comparable<Vertex>{
         return false;
     }
 
-    public void setReached(boolean reached) {
+    /*public void setReached(boolean reached) {
         this.reached = reached;
-    }
+    }*/
 
     public boolean isDominant(Vertex w){
         for (Vertex wNeighbor : w.N()) {
@@ -133,5 +174,17 @@ public class Vertex implements Comparable<Vertex>{
             }
         }
         return clone;
+    }
+
+    public boolean is2pliable(){
+        if (2 == this.getEdges().size()){
+            Set<Vertex> neighbors = this.clone2().getEdges();
+            Vertex u1 = neighbors.iterator().next();
+            neighbors.remove(u1);
+            Vertex u2 = neighbors.iterator().next();
+            if (!u1.getEdges().contains(u2))
+                return true;
+        }
+        return false;
     }
 }

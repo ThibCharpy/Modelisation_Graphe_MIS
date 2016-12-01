@@ -21,17 +21,17 @@ public class GrapheTest extends TestCase {
 
     public void testnbCC() throws FileNotFoundException, FilePathException {
         Graphe g = new Graphe("src/main/ressources/g1.graphe");
-        if (g.nbCC() == 1)
+        if (g.nbCC2() == 1)
             System.out.println("oui1");
         else
             System.out.println("non1");
         g = new Graphe("src/main/ressources/g2.graphe");
-        if (g.nbCC() == 2)
+        if (g.nbCC2() == 2)
             System.out.println("oui2");
         else
             System.out.println("non2");
         g = new Graphe("src/main/ressources/g3.graphe");
-        if (g.nbCC() == 4)
+        if (g.nbCC2() == 4)
             System.out.println("oui3");
         else
             System.out.println("non3");
