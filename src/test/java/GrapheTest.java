@@ -10,16 +10,13 @@ import java.io.IOException;
  */
 public class GrapheTest extends TestCase {
 
-    public void testGraphe() throws FileNotFoundException, FilePathException {
+    public void testGraphe() throws FilePathException, FileSyntaxException {
         Graphe g = new Graphe("src/main/ressources/g1.graphe");
         assertNotNull(g);
-
-        //System.out.println(Pliage.pliable(g.getVertex("0")));
-        //Pliage.pliage(g, g.getVertex("0"));
         System.out.println(g.toString());
     }
 
-    public void testnbCC() throws FileNotFoundException, FilePathException {
+    public void testnbCC() throws FileSyntaxException, FilePathException {
         Graphe g = new Graphe("src/main/ressources/g1.graphe");
         if (g.nbCC2() == 1)
             System.out.println("oui1");
@@ -37,10 +34,9 @@ public class GrapheTest extends TestCase {
             System.out.println("non3");
     }
 
-    public void testFindDominance() throws IOException, FilePathException {
+    public void testFindDominance() throws FileSyntaxException, FilePathException {
         Graphe g = new Graphe("src/main/ressources/g4.graphe");
         Graphe g2 = new Graphe();
-        g.toDot("graphe1");
         int ancSize = g.getSize();
         Vertex toRemove = g.findDominance();
         Vertex toRemove2 = g2.findDominance();
@@ -48,9 +44,8 @@ public class GrapheTest extends TestCase {
         assertTrue(!g2.removeVertex(null));
         assertTrue(g.removeVertex(toRemove));
         assertTrue(ancSize-1 == g.getSize());
-        g.toDot("graphe2");
     }
-    public void testMirror() throws FileNotFoundException, FilePathException {
+    public void testMirror() throws FileSyntaxException, FilePathException {
         Graphe g = new Graphe("src/main/ressources/g2.graphe");
         if (g.getVertex("0").isMirror(g.getVertex("1"))) {
             System.out.println("oui");

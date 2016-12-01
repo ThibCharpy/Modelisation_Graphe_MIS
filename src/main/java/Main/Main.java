@@ -72,12 +72,24 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            Graphe g = new Graphe("src/main/ressources/g1.graphe");
-            System.out.println(g.toString());
-            g.toDot();
-            System.out.println(algo_MIS(g));
-        } catch (FilePathException | IOException e) {
-            e.printStackTrace();
+            String source = args[0];
+            try {
+                //Graphe g = new Graphe("src/main/ressources/g1.graphe");
+                Graphe g = new Graphe(source);
+                System.out.println(g.toString());
+                System.out.println(algo_MIS(g));
+            } catch (FilePathException ef) {
+                System.out.println("FilePathException :");
+                System.out.println(ef.getMessage());
+                System.out.println("Expected: existing filename.graphe");
+            } catch (FileSyntaxException es){
+                System.out.println("FileSyntaxException :");
+                System.out.println(es.getMessage());
+            }
+        }catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Input Error:");
+            System.out.println("Expected : java -jar Modelisation_Graphe_MIS-1.0.jar filename.graphe");
         }
+
     }
 }

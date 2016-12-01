@@ -26,7 +26,7 @@ public class Graphe {
         vertexesQueue = new PriorityQueue<Vertex>();
     }
 
-    public Graphe(String path) throws FilePathException, FileNotFoundException {
+    public Graphe(String path) throws FilePathException, FileSyntaxException{
         int cpt = 0;
         if ('.' == path.charAt(0))
             throw new FilePathException("Empty File name Error.");
@@ -147,7 +147,7 @@ public class Graphe {
                 e.printStackTrace();
             }
         }else{
-            throw new FileNotFoundException();
+            throw new FilePathException("No file named \""+path+ "\" in this directory.");
         }
 
     }
@@ -209,7 +209,7 @@ public class Graphe {
         return builder.toString();
     }
 
-    public void toDot() throws IOException {
+    /*public void toDot() throws IOException {
         //to launch a .dot graph use this command line:
         //dot -Tx11 graphe.dot
         List<String> lines = new ArrayList<>();
@@ -231,7 +231,7 @@ public class Graphe {
         lines.add("}");
         Path file = Paths.get("target/"+fileName+".dot");
         Files.write(file,lines, Charset.forName("UTF-8"));
-    }
+    }*/
 
     public int nbCC2(){
         int nbCC = 0;
