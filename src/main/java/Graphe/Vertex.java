@@ -2,14 +2,13 @@ package Graphe;
 
 import java.util.*;
 
-import static Main.Main.isClique2;
+import static Main.Main.isClique;
 
 /**
  * Created by thibault on 15/10/16.
  */
 public class Vertex implements Comparable<Vertex>{
     private String label;
-    //private boolean reached;
     private Set<Vertex> edges;
 
     public Vertex(String label) {
@@ -82,7 +81,7 @@ public class Vertex implements Comparable<Vertex>{
         return builder.toString();
     }
 
-    public String toDot() {
+    /*public String toDot() {
         StringBuilder builder = new StringBuilder();
         builder.append(label).append(" -- {");
         int cpt=0;
@@ -94,7 +93,7 @@ public class Vertex implements Comparable<Vertex>{
         }
         builder.append("}");
         return builder.toString();
-    }
+    }*/
 
     @Override
     public int compareTo(Vertex o) {
@@ -108,10 +107,6 @@ public class Vertex implements Comparable<Vertex>{
             }
         }
     }
-
-    /*public boolean isReached() {
-        return reached;
-    }*/
 
     public Vertex clone2(){
         Vertex vClone = new Vertex(this.getLabel());
@@ -137,7 +132,7 @@ public class Vertex implements Comparable<Vertex>{
                         it.remove();
                 }
             }
-            if (isClique2(c))
+            if (isClique(c))
                 return true;
         }
         return false;
@@ -152,10 +147,6 @@ public class Vertex implements Comparable<Vertex>{
         }
         return false;
     }
-
-    /*public void setReached(boolean reached) {
-        this.reached = reached;
-    }*/
 
     public boolean isDominant(Vertex w){
         for (Vertex wNeighbor : w.N()) {

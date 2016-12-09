@@ -161,11 +161,6 @@ public class Graphe {
                 size++;
                 vertexesQueue.add(v);
         }
-        /*if (!this.vertexesSet.contains(v)){
-            size++;
-            vertexesSet.add(v);
-            vertexesQueue.add(v);
-        }*/
     }
 
     /**
@@ -184,12 +179,6 @@ public class Graphe {
                 }
         }
         return null;
-        /*for (Vertex v: vertexesSet) {
-            if (label.equals(v.getLabel())){
-                return v;
-            }
-        }
-        return null;*/
     }
 
     public Queue<Vertex> getVertexesQueue(){
@@ -233,7 +222,7 @@ public class Graphe {
         Files.write(file,lines, Charset.forName("UTF-8"));
     }*/
 
-    public int nbCC2(){
+    public int nbCC(){
         int nbCC = 0;
         Map<Vertex,Integer> states = new HashMap<Vertex, Integer>();
         Queue<Vertex> queue = new PriorityQueue<Vertex>();
@@ -261,7 +250,7 @@ public class Graphe {
         return nbCC;
     }
 
-    public Graphe getCC2(){
+    public Graphe getCC(){
         List<Graphe> ccs = new ArrayList<Graphe>();
         Queue<Vertex> queue = new PriorityQueue<Vertex>();
         Graphe g;
@@ -280,55 +269,6 @@ public class Graphe {
         }
         return ccs.get(0);
     }
-
-    /*public int nbCC() {
-        int nbCC = 0;
-        Vertex tete;
-        LinkedList<Vertex> fifo = new LinkedList<Vertex>();
-        for (Vertex v: this.vertexesQueue){
-            v.setReached(false);
-        }
-        for (Vertex v: this.vertexesQueue){
-            if (!v.isReached()){
-                fifo.add(v);
-                nbCC++;
-                v.setReached(true);
-                while (!fifo.isEmpty()){
-                    tete = fifo.removeFirst();
-                    for (Vertex neighbour: tete.getEdges()){
-                        if (!neighbour.isReached()){
-                            neighbour.setReached(true);
-                            fifo.add(neighbour);
-                        }
-                    }
-                }
-            }
-        }
-        return nbCC;
-    }
-
-    public Graphe getCC(){
-        Graphe graphe = new Graphe();
-        Vertex tete;
-        LinkedList<Vertex> fifo = new LinkedList<Vertex>();
-        for (Vertex v: this.vertexesQueue){
-            v.setReached(false);
-        }
-        Vertex v = this.vertexesQueue.peek();
-        fifo.add(v);
-        v.setReached(true);
-        while (!fifo.isEmpty()) {
-            tete = fifo.removeFirst();
-            graphe.addVertex(tete);
-            for (Vertex neighbour : tete.getEdges()) {
-                if (!neighbour.isReached()) {
-                    neighbour.setReached(true);
-                    fifo.add(neighbour);
-                }
-            }
-        }
-        return graphe;
-    }*/
 
     public void removeCC(Graphe cc){
         for (Vertex vCC: cc.vertexesQueue) {
@@ -390,7 +330,7 @@ public class Graphe {
         return true;
     }
 
-    public Set<Vertex> getMirrors2(Vertex v){
+    public Set<Vertex> getMirrors(Vertex v){
         Set<Vertex> m = new HashSet<Vertex>();
         for (Vertex vGraphe : this.vertexesQueue){
             if (vGraphe.isMirror2(v)){
@@ -398,16 +338,6 @@ public class Graphe {
             }
         }
         return m;
-    }
-
-    public Graphe getMirrors(Vertex v) {
-        Graphe g = new Graphe();
-        for (Vertex neighbour2: this.vertexesQueue){
-            if (neighbour2 != v && neighbour2.isMirror(v)){
-                g.addVertex(neighbour2);
-            }
-        }
-        return g;
     }
 
     public Vertex getMaxDegree() {
@@ -431,18 +361,7 @@ public class Graphe {
         return null;
     }
 
-    public static boolean pliable(Vertex v){
-        Set<Vertex> vEdges = v.getEdges();
-        if(2 == v.getEdges().size()) {
-            Vertex u1 = vEdges.iterator().next();
-            vEdges.remove(u1);
-            Vertex u2 = vEdges.iterator().next();
-            return !u1.getEdges().contains(u2);
-        }
-        return false;
-    }
-
-    public Graphe clone2(){
+    public Graphe clone_bis(){
         Graphe clone = new Graphe();
         for (Vertex vQueue : this.vertexesQueue) {
             Vertex vClone = clone.getVertex(vQueue.getLabel());
@@ -457,14 +376,6 @@ public class Graphe {
                 vClone.addNeighbor(vCloneNeighbor);
             }
             clone.addVertex(vClone);
-        }
-        return clone;
-    }
-
-    public Graphe clone() {
-        Graphe clone = new Graphe();
-        for (Vertex v: this.vertexesQueue){
-            clone.addVertex(v.clone());
         }
         return clone;
     }
@@ -494,54 +405,5 @@ public class Graphe {
         this.removeVertex(u1);
         this.removeVertex(u2);
         this.addVertex(u12);
-    }
-
-    public static Graphe pliage(Graphe g, Vertex v){
-
-        Set<Vertex> vEdges = v.getEdges();
-        Graphe g2 = g;
-
-        // Si le sommet a exactement 2 voisins
-        if(2 == v.getEdges().size()){
-            Vertex u1 = vEdges.iterator().next();
-            vEdges.remove(u1);
-            Vertex u2 = vEdges.iterator().next();
-
-            // Si ses deux voisins ne sont eux memes pas voisins
-            if(!u1.getEdges().contains(u2)){
-                Vertex u12 = new Vertex(u1.getLabel()+"."+u2.getLabel()); // le . est censé représenter la fusion de deux sommets
-                u1.getEdges().stream().filter(temp -> !u12.getEdges().contains(temp)).forEach(temp -> {
-                    u12.addNeighbor(temp);
-                });
-                u2.getEdges().stream().filter(temp -> !u12.getEdges().contains(temp)).forEach(temp -> {
-                    u12.addNeighbor(temp);
-                });
-                for(Vertex temp: u12.getEdges()){
-                    if(!temp.getEdges().contains(u12)){
-                        temp.addNeighbor(u12);
-                    }
-                    if(temp.getEdges().contains(u1)){
-                        temp.getEdges().remove(u1);
-                    }
-                    if(temp.getEdges().contains(u2)){
-                        temp.getEdges().remove(u2);
-                    }
-                }
-
-                // Pour chaque sommet du graphe, si v était son voisin on retire v de cette liste
-                g.getVertexesQueue().stream().filter(temp -> temp.getEdges().contains(v)).forEach(temp -> {
-                    temp.getEdges().remove(v);
-                });
-
-                // On supprime v du graphe
-                g.getVertexesQueue().remove(v);
-                g.getVertexesQueue().remove(u1);
-                g.getVertexesQueue().remove(u2);
-                g.getVertexesQueue().add(u12);
-
-                return g;
-            }
-        }
-        return g;
     }
 }
